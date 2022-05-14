@@ -1,0 +1,133 @@
+/* SASS */
+$font-stack: Helvetica, sans-serif;
+$primary-color: #333;
+
+* {
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+html {
+  /* font-family: 'Source Code Pro', monospace; */
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.4;
+  color: #282828;
+  color: black;
+  /* rgba(40,40,40,1); */
+}
+
+body {
+  text-align: center;
+  background-color: gray;
+  color: black;
+}
+
+.temp-screens {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+
+  .screen {
+    margin-left: 10px;
+    margin-top: 10px;
+  }
+}
+
+.screen {
+  background-color: white;
+  width: 240px;
+  height: 560px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.logo {
+  cursor: pointer;
+}
+
+.widget-analog-timer {
+  position: relative;
+
+  .box {
+    position: relative;
+    width: 200px;
+    height: 200px;
+
+    .line-holder {
+      position: absolute;
+      top: 0px;
+      left: 98px;
+      width: 4px;
+      height: 200px;
+      /* transition: none; */
+
+      /* outline: 1px dashed blue; */
+      .line {
+        position: absolute;
+        top: 0px;
+        left: 1px;
+        width: 2px;
+        height: 10px;
+        background-color: black;
+      }
+
+      .pointer-seconds {
+        position: absolute;
+        top: 12px;
+        left: 1px;
+        width: 2px;
+        height: 88px;
+        background-color: black;
+        transition: all 0s;
+      }
+
+      .pointer-minutes {
+        position: absolute;
+        top: 25px;
+        left: 0px;
+        width: 4px;
+        height: 75px;
+        background-color: black;
+      }
+    }
+  }
+}
+
+
+.btn {
+  display: block;
+  width: 200px;
+  height: 40px;
+  line-height: 40px;
+  font-weight: 600;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.set-minutes-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+
+  .btn-plus-minus {
+    font-size: 32px;
+    font-weight: 400;
+    cursor: pointer;
+  }
+  .minutes {
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: 64px;
+    font-weight: 600;
+  }
+}
