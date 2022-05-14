@@ -1,8 +1,11 @@
 import React, { useEffect, useReducer, useState } from "react";
-// import useInterval from "../hooks/use-interval";
 import './App.scss';
+import ScreenAlarm from "./ScreenAlarm";
 import ScreenAnalogTimer from "./ScreenAnalogTimer";
+import ScreenBreak from "./ScreenBreak";
+import ScreenDigitalTimer from "./ScreenDigitalTimer";
 import ScreenHome from "./ScreenHome";
+import ScreenMenu from "./ScreenMenu";
 import ScreenSetTimer from "./ScreenSetTimer";
 
 /*
@@ -13,10 +16,6 @@ Typescript I Sass
 
 */
 
-let intervalID: any = false;
-
-export const AppContext = React.createContext(null);
-
 
 const getMinutesSecondsFromMiliseconds = (ms: number) => {
   let minutes = Math.floor(ms / (60 * 1000));
@@ -24,14 +23,22 @@ const getMinutesSecondsFromMiliseconds = (ms: number) => {
   return [minutes, seconds];
 };
 
+let intervalID: any = false;
+
+
 const App = () => {
   const [refresh, setRefresh] = useState(0); // this state is just for refreshing the screen on every tick
 
+  const [menuOpened, setMenuOpened] = useState(false);
+  const [mode, setMode] = useState('ANALOG'); // ANALOG/DIGITAL
+
+
   // timer status
   const OFF = 'OFF';
+  const SETTING = 'SETTING';
   const RUNNING = 'RUNNING';
   const BREAK = 'BREAK';
-  const ALERTING = 'ALERTING';
+  const ALARM = 'ALARM';
 
   const initialState = {
     status: OFF,
@@ -43,11 +50,23 @@ const App = () => {
 
   const reducer = (state: any, action: any) => {
     switch (action.type) {
+      case 'ABORT_TIMER':
+        return {
+          ...state,
+          status: OFF
+        };
+
+      case 'SET_NEW_TIMER':
+        return {
+          ...state,
+          status: SETTING
+        };
+
       case 'START_TIMER':
         // const milisecondsStart = Date.now();
-        console.log(action)
-        console.log('payload minutes', action.payload.minutes)
-        console.log('ms max', Date.now() + (action.payload.minutes * (60 * 1000)));
+        // console.log(action);
+        // console.log('payload minutes', action.payload.minutes);
+        // console.log('ms max', Date.now() + (action.payload.minutes * (60 * 1000)));
         return {
           ...state,
           intervals: action.payload.intervals,
@@ -72,42 +91,26 @@ const App = () => {
           status: RUNNING
         };
 
-      case 'ALERTING':
+      case 'ALARM':
         return {
           ...state,
           milisecondsMax: 0,
-          status: ALERTING
+          status: ALARM
         };
 
       default:
         return state;
     }
-  }
+  };
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  useEffect(() => {
-    console.log('satte changed', state.milisecondsMax);
-  }, [state.milisecondsMax]);
-
-
-  // const [timerStatus, setTimerStatus] = useState(RUNNING); // OFF, RUNNING, BREAK, ALERTING
-
-
-
-  // const [time, setTime] = useState(0);
-
-
-  // const x = { ...state };
-
   const tick = (state: any) => {
     const miliseconds = Date.now();
-    // const state = { ...x };
     console.log('state.status', state.status, 'miliseconds', miliseconds);
     if (state.status === RUNNING) {
       if (miliseconds >= state.milisecondsMax) {
         console.log(miliseconds, state.milisecondsMax, miliseconds >= state.milisecondsMax);
-        // console.log(state);
         // time is up
         console.log('Time is up!');
         if (state.intervals === true) {
@@ -122,7 +125,7 @@ const App = () => {
           }
         } else {
           dispatch({
-            type: 'ALERTING'
+            type: 'ALARM'
           });
         }
       }
@@ -136,28 +139,9 @@ const App = () => {
       }
     }
 
-    /*
-    setTime((t: any) => {
-      return t + 1;
-    });
-    */
-
     // REFRESH SCREEN
     setRefresh(refresh => refresh + 1);
   };
-
-
-  /*
-  useEffect(() => {
-    // component did mount
-    if (!intervalID) {
-      intervalID = setInterval(() => {
-        // call tick every second
-        tick();
-      }, 1000);
-    }
-  }, []);
-  */
 
   useEffect(() => {
     //
@@ -175,12 +159,28 @@ const App = () => {
     }
   }, [tick, state]);
 
-  /*
-  useInterval(() => {
-    // Your custom logic here    
-    tick();
-  }, 1000);
-  */
+
+  // PREPARING DATA FOR SCREENS
+
+  const cbSetMode = (x: any) => {
+    setMode(x);
+    setMenuOpened(false);
+  };
+
+  const cbMenuToggle = () => {
+    setMenuOpened(opened => {
+      if (opened) {
+        return false;
+      }
+      return true;
+    });
+  };
+
+  const cbSetNewTimer = () => {
+    dispatch({
+      type: 'SET_NEW_TIMER'
+    });
+  };
 
   const cbStartTimer = (payload: any) => {
     dispatch({
@@ -189,24 +189,84 @@ const App = () => {
     });
   };
 
+  const cbAbortTimer = (payload: any) => {
+    dispatch({
+      type: 'ABORT_TIMER',
+      payload: payload
+    });
+  };
+
+  const cbAbortBreak = () => {
+    dispatch({
+      type: 'REPEAT_TIMER'
+    });
+  };
+
+  // calculate minutes and seconds to display
   let milisecondsLeft = 0;
   const delta = state.milisecondsMax - Date.now();
   console.log('***', state.status, delta);
-  if (state.status === RUNNING && delta > 0) {
+  if ((state.status === RUNNING || state.status === BREAK) && delta > 0) {
     console.log('delta', delta);
     milisecondsLeft = delta;
   }
   const [minutes, seconds] = getMinutesSecondsFromMiliseconds(milisecondsLeft);
 
 
+  let headerTitle = 'timer';
+  if (state.intervals === true) {
+    headerTitle = 'interval';
+  }
+
+  let jsxScreen = null;
+  if (state.status === OFF) {
+    jsxScreen = (
+      <ScreenHome cbSetNewTimer={cbSetNewTimer} cbMenuToggle={cbMenuToggle} />
+    );
+  } else if (state.status === SETTING) {
+    jsxScreen = (
+      <ScreenSetTimer cbStartTimer={cbStartTimer} cbMenuToggle={cbMenuToggle} />
+    );
+  } else if (state.status === RUNNING) {
+    if (mode === 'DIGITAL') {
+      jsxScreen = (
+        <ScreenDigitalTimer minutes={minutes} seconds={seconds} cbAbortTimer={cbAbortTimer} headerTitle={headerTitle} cbMenuToggle={cbMenuToggle} />
+      );
+    } else {
+      jsxScreen = (
+        <ScreenAnalogTimer minutes={minutes} seconds={seconds} cbAbortTimer={cbAbortTimer} headerTitle={headerTitle} cbMenuToggle={cbMenuToggle} />
+      );
+    }
+  } else if (state.status === ALARM) {
+    jsxScreen = (
+      <ScreenAlarm cbSetNewTimer={cbSetNewTimer} cbMenuToggle={cbMenuToggle} />
+    );
+  } else if (state.status === BREAK) {
+    jsxScreen = (
+      <ScreenBreak minutes={minutes} seconds={seconds} cbAbortBreak={cbAbortBreak} cbMenuToggle={cbMenuToggle} />
+    );
+  }
+
   return (
     <>
       App
       <div className="temp-screens">
-        <ScreenHome />
-        <ScreenSetTimer cbStartTimer={cbStartTimer} />
-        <ScreenAnalogTimer minutes={minutes} seconds={seconds} />
-        <ScreenAnalogTimer minutes={minutes} seconds={seconds} />
+        <div className="screen-wrapper">
+          {jsxScreen}
+          <div className={menuOpened ? "menu-container opened" : "menu-container"}>
+            {
+              menuOpened && (
+                <ScreenMenu cbSetMode={cbSetMode} cbMenuToggle={cbMenuToggle} />
+              )
+            }
+          </div>
+        </div>
+        <ScreenHome cbSetNewTimer={cbSetNewTimer} cbMenuToggle={cbMenuToggle} />
+        <ScreenSetTimer cbStartTimer={cbStartTimer} cbMenuToggle={cbMenuToggle} />
+        <ScreenAnalogTimer minutes={minutes} seconds={seconds} headerTitle={headerTitle} cbMenuToggle={cbMenuToggle} />
+        <ScreenDigitalTimer minutes={minutes} seconds={seconds} headerTitle={headerTitle} cbMenuToggle={cbMenuToggle} />
+        <ScreenAlarm cbSetNewTimer={cbSetNewTimer} cbMenuToggle={cbMenuToggle} />
+        <ScreenBreak minutes={minutes} seconds={seconds} cbAbortBreak={cbAbortBreak} cbMenuToggle={cbMenuToggle} />
       </div>
     </>
   );

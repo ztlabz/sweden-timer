@@ -1,11 +1,11 @@
 import { useState } from "react";
+import Header from "./Header";
 
 
 const ScreenSetTimer = (props: any) => {
   const [minutes, setMinutes] = useState(1);
   const [intervals_, setintervals_] = useState(true);
   const [breaks_, setBreaks_] = useState(true);
-
 
   const maxMinutes = 20;
 
@@ -40,21 +40,27 @@ const ScreenSetTimer = (props: any) => {
   return (
     <>
       <div className="screen screen-set-timer">
-        <h1>Set timer</h1>
-        <div className="set-minutes-group">
-          <div className="btn-plus-minus" onClick={handleMinutesMinus}>&lt;</div>
-          <div className="minutes">{minutes}</div>
-          <div className="btn-plus-minus" onClick={handleMinutesPlus}>&gt;</div>
+        <Header headerTitle={props.headerTitle} cbMenuToggle={props.cbMenuToggle} />
+        <div className="main">
+          <div className="set-minutes-group">
+            <div className="btn-plus-minus" onClick={handleMinutesMinus}>&lt;</div>
+            <div className="minutes">{minutes}</div>
+            <div className="btn-plus-minus" onClick={handleMinutesPlus}>&gt;</div>
+          </div>
+          <div className="form">
+            <div>
+              <input type="checkbox" name="intervals_" checked={intervals_} onChange={(e) => { setintervals_(e.target.checked) }} />
+              <label>Intervals</label>
+            </div>
+            <div>
+              <input type="checkbox" name="breaks_" checked={breaks_} onChange={(e) => { setBreaks_(e.target.checked) }} />
+              <label>5 min. break / interval</label>
+            </div>
+          </div>
         </div>
-
-        <label>Intervals
-          <input type="checkbox" name="intervals_" checked={intervals_} onChange={(e) => { setintervals_(e.target.checked) }} />
-        </label>
-        <label>5 min. break / interval
-          <input type="checkbox" name="breaks_" checked={breaks_} onChange={(e) => { setBreaks_(e.target.checked) }} />
-        </label>
-        <div className="btn" onClick={handleStart}>START TIMER</div>
-
+        <footer>
+          <div className="btn btn-big" onClick={handleStart}>START TIMER</div>
+        </footer>
       </div>
     </>
   );

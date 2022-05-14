@@ -1,13 +1,13 @@
 import Header from "./Header";
-import WidgetAnalogTimer from "./WidgetAnalogTimer";
+import WidgetDigitalTimer from "./WidgetDigitalTimer";
 
-const ScreenAnalogTimer = (props: any) => {
+const ScreenDigitalTimer = (props: any) => {
   return (
     <>
-      <div className="screen screen-analog-timer">
+      <div className="screen screen-digital-timer">
         <Header headerTitle={props.headerTitle} cbMenuToggle={props.cbMenuToggle} />
         <div className="main">
-          <WidgetAnalogTimer minutes={props.minutes} seconds={props.seconds} />
+          <WidgetDigitalTimer minutes={props.minutes} seconds={props.seconds} cbMenuToggle={props.cbMenuToggle} />
         </div>
         <footer>
           <div className="btn" onClick={() => { props.cbAbortTimer() }}>ABORT TIMER</div>
@@ -17,4 +17,4 @@ const ScreenAnalogTimer = (props: any) => {
   );
 };
 
-export default ScreenAnalogTimer;
+export default ScreenDigitalTimer;

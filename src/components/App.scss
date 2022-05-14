@@ -37,8 +37,40 @@ body {
   }
 }
 
+.screen-wrapper {
+  position: relative;
+}
+
+.menu-container {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 0px;
+  width: 100%;
+  overflow: hidden;
+
+  &.opened {
+    height: unset;
+  }
+
+  .menu {
+    margin-top: auto;
+    margin-bottom: 60px;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 600;
+
+    div {
+      margin-bottom: 2em;
+    }
+  }
+}
+
 .screen {
+  position: relative;
+  margin: 0px;
   background-color: white;
+  color: black;
   width: 240px;
   height: 560px;
 
@@ -47,10 +79,192 @@ body {
   justify-content: flex-start;
   align-items: center;
   flex-wrap: nowrap;
+
+  header {
+    position: relative;
+    align-self: stretch;
+    margin: 10px;
+    height: 32px;
+    text-align: center;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    .hamburger {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+    }
+  }
+
+  .main {
+    position: relative;
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+
+  footer {
+    position: relative;
+    align-self: center;
+    padding-bottom: 40px;
+  }
+
+  .btn {
+    display: block;
+    width: 150px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid black;
+    cursor: pointer;
+
+    &.btn-big {
+      width: 200px;
+      height: 40px;
+      line-height: 40px;
+      font-size: 16px;
+    }
+  }
+
+  &.dark-theme {
+    background: radial-gradient(circle farthest-side, #383838, #222222);
+    color: white;
+
+    &.bg-black {
+      background: black;
+    }
+
+    .btn {
+      border: 1px solid white;
+    }
+  }
 }
 
-.logo {
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  flex-wrap: nowrap;
+
   cursor: pointer;
+  width: 32px;
+  height: 32px;
+
+  .line {
+    background-color: black;
+  }
+
+  .line-1 {
+    height: 33%;
+  }
+
+  .line-2 {
+    height: 25%;
+  }
+
+  .line-3 {
+    height: 12%;
+  }
+
+  .line-4 {
+    height: 7%;
+  }
+}
+
+.dark-theme {
+  .hamburger {
+    .line {
+      background-color: white;
+    }
+  }
+}
+
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+
+  cursor: pointer;
+
+  .hamburger {
+    transform: rotate(90deg);
+  }
+
+  .logo-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 6px;
+  }
+
+  p {
+    font-size: 12px;
+    font-weight: 400;
+    margin-top: 6px;
+  }
+}
+
+.icon {
+  font-size: 40px;
+}
+
+.icon.icon-alarm {
+  font-size: 40px;
+}
+
+.icon.icon-break {
+  font-size: 28px;
+}
+
+h2 {
+  margin-top: 0.5em;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+
+  margin-top: 20px;
+
+  div {
+    margin-bottom: 10px;
+  }
+}
+
+
+.screen.screen-set-timer {
+  .main {
+    padding-top: 120px;
+  }
+}
+
+
+.widget-digital-timer {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.screen-digital-timer {
+  .widget-digital-timer {
+    font-size: 48px;
+    font-weight: 600;
+  }
 }
 
 .widget-analog-timer {
@@ -101,17 +315,6 @@ body {
   }
 }
 
-
-.btn {
-  display: block;
-  width: 200px;
-  height: 40px;
-  line-height: 40px;
-  font-weight: 600;
-  border: 1px solid black;
-  cursor: pointer;
-}
-
 .set-minutes-group {
   display: flex;
   flex-direction: row;
@@ -124,6 +327,7 @@ body {
     font-weight: 400;
     cursor: pointer;
   }
+
   .minutes {
     margin-left: 20px;
     margin-right: 20px;
