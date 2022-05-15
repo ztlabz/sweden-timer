@@ -250,17 +250,17 @@ const App = () => {
   return (
     <>
       App
-      <div className="temp-screens">
-        <div className="screen-wrapper">
-          {jsxScreen}
-          <div className={menuOpened ? "menu-container opened" : "menu-container"}>
-            {
-              menuOpened && (
-                <ScreenMenu cbSetMode={cbSetMode} cbMenuToggle={cbMenuToggle} />
-              )
-            }
-          </div>
+      <div className="screen-wrapper">
+        {jsxScreen}
+        <div className={menuOpened ? "menu-container opened" : "menu-container"}>
+          {
+            menuOpened && (
+              <ScreenMenu cbSetMode={cbSetMode} cbMenuToggle={cbMenuToggle} />
+            )
+          }
         </div>
+      </div>
+      <div className="temp-screens">
         <ScreenHome cbSetNewTimer={cbSetNewTimer} cbMenuToggle={cbMenuToggle} />
         <ScreenSetTimer cbStartTimer={cbStartTimer} cbMenuToggle={cbMenuToggle} />
         <ScreenAnalogTimer minutes={minutes} seconds={seconds} headerTitle={headerTitle} cbMenuToggle={cbMenuToggle} />

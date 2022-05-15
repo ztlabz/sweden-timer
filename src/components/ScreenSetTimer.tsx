@@ -7,7 +7,7 @@ const ScreenSetTimer = (props: any) => {
   const [intervals_, setintervals_] = useState(true);
   const [breaks_, setBreaks_] = useState(true);
 
-  const maxMinutes = 20;
+  const maxMinutes = 60;
 
   const handleMinutesPlus = () => {
     setMinutes((state: any) => {

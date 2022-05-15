@@ -1,6 +1,7 @@
 /* SASS */
-$font-stack: Helvetica, sans-serif;
-$primary-color: #333;
+
+$black-color: black;
+
 
 * {
   box-sizing: border-box;
@@ -8,20 +9,20 @@ $primary-color: #333;
 }
 
 html {
-  /* font-family: 'Source Code Pro', monospace; */
   font-family: "Open Sans", sans-serif;
   font-weight: 400;
   font-size: 16px;
+  /* 1rem */
   line-height: 1.4;
-  color: #282828;
-  color: black;
-  /* rgba(40,40,40,1); */
+  color: $black-color;
 }
 
 body {
+  padding: 0px;
+  margin: 0px;
   text-align: center;
   background-color: gray;
-  color: black;
+  color: $black-color;
 }
 
 .temp-screens {
@@ -55,13 +56,14 @@ body {
 
   .menu {
     margin-top: auto;
-    margin-bottom: 60px;
+    margin-bottom: 6rem;
     text-align: left;
-    font-size: 16px;
+    font-size: 1.5rem;
     font-weight: 600;
 
-    div {
-      margin-bottom: 2em;
+    .menu-option {
+      margin-bottom: 1.5em;
+      cursor: pointer;
     }
   }
 }
@@ -70,9 +72,9 @@ body {
   position: relative;
   margin: 0px;
   background-color: white;
-  color: black;
-  width: 240px;
-  height: 560px;
+  color: $black-color;
+  width: 360px;
+  height: 800px;
 
   display: flex;
   flex-direction: column;
@@ -83,8 +85,8 @@ body {
   header {
     position: relative;
     align-self: stretch;
-    margin: 10px;
-    height: 32px;
+    margin: 1rem;
+    height: 2rem;
     text-align: center;
 
     display: flex;
@@ -92,6 +94,8 @@ body {
     justify-content: center;
     align-items: center;
     flex-wrap: nowrap;
+
+    font-size: 1.1rem;
 
     .hamburger {
       position: absolute;
@@ -111,6 +115,12 @@ body {
     flex-wrap: nowrap;
   }
 
+  &.screen-set-timer {
+    .main {
+      padding-top: 120px;
+    }
+  }
+
   footer {
     position: relative;
     align-self: center;
@@ -119,28 +129,31 @@ body {
 
   .btn {
     display: block;
-    width: 150px;
-    height: 24px;
-    line-height: 24px;
-    font-size: 12px;
+    width: 160px;
+    height: 2rem;
+    line-height: 2rem;
+    font-size: 0.7rem;
     font-weight: 600;
-    border: 1px solid black;
+    border: 1px solid $black-color;
     cursor: pointer;
 
     &.btn-big {
-      width: 200px;
-      height: 40px;
-      line-height: 40px;
-      font-size: 16px;
+      width: 260px;
+      height: 2.5rem;
+      line-height: 2.5rem;
+      font-size: 1.2rem;
+      font-weight: 700;
     }
   }
 
   &.dark-theme {
-    background: radial-gradient(circle farthest-side, #383838, #222222);
+    /* background: radial-gradient(circle farthest-side, #383838, #222222); */
+    background-image: radial-gradient(circle at 50%, #383838, #383838 18%, #303030 18%, #303030 27%, #2A2A2A 27%, #2A2A2A 40%, #262626 40%, #262626 60%, #222222 60%, #222222 100%);
+    background-position: center;
     color: white;
 
     &.bg-black {
-      background: black;
+      background: $black-color;
     }
 
     .btn {
@@ -162,7 +175,7 @@ body {
   height: 32px;
 
   .line {
-    background-color: black;
+    background-color: $black-color;
   }
 
   .line-1 {
@@ -205,15 +218,15 @@ body {
   }
 
   .logo-title {
-    font-size: 16px;
+    font-size: 1.2rem;
     font-weight: 600;
-    margin-top: 6px;
+    margin-top: 0.4rem;
   }
 
   p {
-    font-size: 12px;
+    font-size: 0.9rem;
     font-weight: 400;
-    margin-top: 6px;
+    margin-top: 0.4rem;
   }
 }
 
@@ -222,15 +235,16 @@ body {
 }
 
 .icon.icon-alarm {
-  font-size: 40px;
+  font-size: 4rem;
 }
 
 .icon.icon-break {
-  font-size: 28px;
+  font-size: 2.7rem;
 }
 
 h2 {
   margin-top: 0.5em;
+  font-size: 1.9rem;
 }
 
 .form {
@@ -240,29 +254,28 @@ h2 {
   align-items: flex-start;
   flex-wrap: nowrap;
 
-  margin-top: 20px;
+  margin-top: 2rem;
+  font-size: 1.2rem;
 
   div {
-    margin-bottom: 10px;
+    margin-bottom: 1rem;
+
+    input {
+      margin-right: 1rem;
+      width: 1.2rem;
+      height: 1.2rem;
+    }
   }
 }
-
-
-.screen.screen-set-timer {
-  .main {
-    padding-top: 120px;
-  }
-}
-
 
 .widget-digital-timer {
-  font-size: 16px;
+  font-size: 1.5rem;
   font-weight: 400;
 }
 
 .screen-digital-timer {
   .widget-digital-timer {
-    font-size: 48px;
+    font-size: 4rem;
     font-weight: 600;
   }
 }
@@ -272,16 +285,16 @@ h2 {
 
   .box {
     position: relative;
-    width: 200px;
-    height: 200px;
+    width: 240px;
+    height: 240px;
 
     .line-holder {
       position: absolute;
       top: 0px;
-      left: 98px;
+      left: 118px;
       width: 4px;
-      height: 200px;
-      /* transition: none; */
+      height: 240px;
+      transition: none;
 
       /* outline: 1px dashed blue; */
       .line {
@@ -290,7 +303,7 @@ h2 {
         left: 1px;
         width: 2px;
         height: 10px;
-        background-color: black;
+        background-color: $black-color;
       }
 
       .pointer-seconds {
@@ -298,8 +311,8 @@ h2 {
         top: 12px;
         left: 1px;
         width: 2px;
-        height: 88px;
-        background-color: black;
+        height: 108px;
+        background-color: $black-color;
         transition: all 0s;
       }
 
@@ -308,8 +321,8 @@ h2 {
         top: 25px;
         left: 0px;
         width: 4px;
-        height: 75px;
-        background-color: black;
+        height: 95px;
+        background-color: $black-color;
       }
     }
   }
@@ -323,15 +336,15 @@ h2 {
   flex-wrap: nowrap;
 
   .btn-plus-minus {
-    font-size: 32px;
+    font-size: 3rem;
     font-weight: 400;
     cursor: pointer;
   }
 
   .minutes {
-    margin-left: 20px;
-    margin-right: 20px;
-    font-size: 64px;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    font-size: 5rem;
     font-weight: 600;
   }
 }
