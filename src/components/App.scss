@@ -74,7 +74,9 @@ body {
   background-color: white;
   color: $black-color;
   width: 360px;
+  width: 100vw; /* optimized for 360px */
   height: 800px;
+  height: 100vh; /* optimized for 800px */
 
   display: flex;
   flex-direction: column;

@@ -249,7 +249,6 @@ const App = () => {
 
   return (
     <>
-      App
       <div className="screen-wrapper">
         {jsxScreen}
         <div className={menuOpened ? "menu-container opened" : "menu-container"}>
@@ -260,6 +259,7 @@ const App = () => {
           }
         </div>
       </div>
+      {/*
       <div className="temp-screens">
         <ScreenHome cbSetNewTimer={cbSetNewTimer} cbMenuToggle={cbMenuToggle} />
         <ScreenSetTimer cbStartTimer={cbStartTimer} cbMenuToggle={cbMenuToggle} />
@@ -268,6 +268,7 @@ const App = () => {
         <ScreenAlarm cbSetNewTimer={cbSetNewTimer} cbMenuToggle={cbMenuToggle} />
         <ScreenBreak minutes={minutes} seconds={seconds} cbAbortBreak={cbAbortBreak} cbMenuToggle={cbMenuToggle} />
       </div>
+      */}
     </>
   );
 };
